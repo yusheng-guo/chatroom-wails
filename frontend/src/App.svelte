@@ -1,4 +1,81 @@
 <script lang="ts">
+  let messages = [
+    "hellowhat?what?what?what?what?what?what?what?what?what?what?what?what?what?what?what?what?",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+    "hello",
+    "what?",
+    "hi!",
+  ];
+
+  let messagesObject = [];
+  const setListItemWidth = () => {
+    const windowWidth = window.innerWidth;
+    const maxWidth = windowWidth * 0.8; // 窗口尺寸的 80%
+    messagesObject = messages.map(item => {
+      const messageWidth = item.length * 20; // 字符长度乘以字体大小
+      return {
+        text: item,
+        width: messageWidth < maxWidth ? messageWidth : maxWidth
+      }
+    });
+  }
+  window.addEventListener('resize', setListItemWidth); // 监听窗口大小变化
+
+  setListItemWidth(); // 初始化每个列表项的宽度
+</script>
+
+<div id="message-container">
+  <ul class="message-list">
+    {#each messagesObject as message}
+      <li class="message" style="width: {message.width}px;">{message.text}</li>
+    {/each}
+  </ul>
+</div>
+<form id="send-container">
+  <input type="text" id="message-input"  placeholder="请输入...">
+  <button type="submit" id="send-button">Send</button>
+</form>
+
+<!-- <div class="chat">
+  <div class="chat-window-container">
+    <div class="chat-window">
+      {#each messages as message, i}
+        <div class="message {message.sent ? 'sent' : 'received'}">
+         <div class="message-text">{message.text}</div>
+        </div>
+      {/each}
+    </div>
+  </div>
+  <div class="input-container">
+    <div class="input">
+      <input id="message-input" type="text" placeholder="Type a message..." />
+      <button on:click={sendMessage}>Send</button>
+    </div>
+  </div>
+</div> -->
+
+
+<!-- 默认 -->
+<!-- <script lang="ts">
   import logo from './assets/images/logo-universal.png'
   import {Greet} from '../wailsjs/go/main/App.js'
 
@@ -76,4 +153,4 @@
     background-color: rgba(255, 255, 255, 1);
   }
 
-</style>
+</style> -->

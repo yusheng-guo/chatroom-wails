@@ -21,6 +21,10 @@ func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
 
+// shutdown 释放内存和执行关闭任务
+func (a *App) shutdown(ctx context.Context) {
+}
+
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
