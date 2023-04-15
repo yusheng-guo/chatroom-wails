@@ -11,35 +11,36 @@ body::-webkit-scrollbar {
 }
 
 #message-container {
+  display: flex;
+  flex-direction: column; /* 按竖直方向排列子元素 */
   width: 100%;
-}
-
-.message-list {
-  list-style-type: none;
-  padding-left: 0;
-  margin: 0;
-  flex: 1;
+  height: calc(100%-36px);
 }
 
 .message {
-  margin-bottom: 5px;
-  margin-left: 5px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  max-width: 80%;
+}
+
+.message span{
   padding: 5px;
-  position: relative; /* 让 ::before 或 ::after 元素的定位相对于 .message 元素 */
   font-size: 20px;
   color: #242450;
   background-color: #ffffff;
   border-radius: 5px;
-  max-width: 80%;
+  border: #242450 1px solid;
 }
 
 #send-container {
-  width: 100%;
+  display: flex;
+  justify-content: space-between; /* 主轴两端对齐 */
   position: fixed;
   bottom: 0;
-  display: flex;
   height: 32px;
+  width: 100%;
   border-radius: 5px;
+  border: #242450 solid 2px;
 }
 
 #message-input {

@@ -1,83 +1,58 @@
 <script lang="ts">
-  let messages = [
-    "hellowhat?what?what?what?what?what?what?what?what?what?what?what?what?what?what?what?what?",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-    "hello",
-    "what?",
-    "hi!",
-  ];
+  import {ReceiveMessage, SendMessage} from '../wailsjs/go/main/App.js'
+  import { onMount } from 'svelte';
 
-  let messagesObject = [];
-  const setListItemWidth = () => {
-    const windowWidth = window.innerWidth;
-    const maxWidth = windowWidth * 0.8; // 窗口尺寸的 80%
-    messagesObject = messages.map(item => {
-      const messageWidth = item.length * 20; // 字符长度乘以字体大小
-      return {
-        text: item,
-        width: messageWidth < maxWidth ? messageWidth : maxWidth
-      }
-    });
+  let Messages: string[] = ["Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi","Hi"]
+
+  async function receive() {
+  while (true) {
+    let result = await ReceiveMessage();
+
+    if (result != '') {
+      Messages = [...Messages, result];
+      console.log(`Received message: ${result}`);
+      console.log(`Messages: ${JSON.stringify(Messages)}`);
+    }
+    }
   }
-  window.addEventListener('resize', setListItemWidth); // 监听窗口大小变化
 
-  setListItemWidth(); // 初始化每个列表项的宽度
+  receive()
+  
+  function sendMessage() {
+    let input = document.getElementById('message-input') as HTMLInputElement
+    if (input.value != ""){
+      SendMessage(input.value)
+    }
+  }
+
+  // input标签自动聚焦
+  let inputElement: { focus: () => void; };
+  onMount(() => {
+    inputElement.focus();
+  });
+
 </script>
-
 <div id="message-container">
-  <ul class="message-list">
-    {#each messagesObject as message}
-      <li class="message" style="width: {message.width}px;">{message.text}</li>
+  <div class="message-list">
+    {#each Messages as message, i}
+      <p class="message">
+        <span> { message } </span>
+      </p>
     {/each}
-  </ul>
+  </div>
 </div>
 <form id="send-container">
-  <input type="text" id="message-input"  placeholder="请输入...">
-  <button type="submit" id="send-button">Send</button>
+  <input type="text" id="message-input"  placeholder="请输入..." autocomplete="off"  bind:this={inputElement} />
+  <button type="submit" id="send-button" on:click={sendMessage}>Send</button>
 </form>
-
-<!-- <div class="chat">
-  <div class="chat-window-container">
-    <div class="chat-window">
-      {#each messages as message, i}
-        <div class="message {message.sent ? 'sent' : 'received'}">
-         <div class="message-text">{message.text}</div>
-        </div>
-      {/each}
-    </div>
-  </div>
-  <div class="input-container">
-    <div class="input">
-      <input id="message-input" type="text" placeholder="Type a message..." />
-      <button on:click={sendMessage}>Send</button>
-    </div>
-  </div>
-</div> -->
-
 
 <!-- 默认 -->
 <!-- <script lang="ts">
   import logo from './assets/images/logo-universal.png'
-  import {Greet} from '../wailsjs/go/main/App.js'
+  im
+  static push(result: string) {
+    throw new Error('Method not implemented.');
+  }port {Greet} from '../wailsjs/go/main/App.js'
 
   let resultText: string = "Please enter your name below 👇"
   let name: string
