@@ -55,10 +55,20 @@ func (a *App) ReceiveMessage() string {
 		log.Println("Conn Failure")
 		return ""
 	}
-	msg, _, err := wsutil.ReadServerData(a.conn)
+	msg, op, err := wsutil.ReadServerData(a.conn)
 	if err != nil {
 		log.Println("Read error:", err)
 	}
+	for op == 0 {
+		var tmp []byte
+		tmp, op, err = wsutil.ReadServerData(a.conn)
+		if err != nil {
+			log.Println("Read error:", err)
+		}
+		msg = append(msg, tmp...)
+	}
+
+	log.Println(op)
 	log.Println("----------------Receive Successful!----------------")
 	log.Println("----------------", string(msg), "----------------")
 	return string(msg)
@@ -69,6 +79,7 @@ func (a *App) SendMessage(msg string) {
 	if a.conn != nil {
 		err := wsutil.WriteClientText(a.conn, []byte(msg))
 		if err != nil {
+			log.Fatal(err)
 			log.Println("Send error:", err)
 		}
 		log.Println("----------------Send Successful!----------------")
